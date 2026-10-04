@@ -1,1 +1,0 @@
-# student-digital-locker
