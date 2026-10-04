@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartVault - Student Digital Locker</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="logo">
+            <i class="fa-solid fa-vault"></i>
+            <h1>SmartVault</h1>
+        </div>
+
+        <p class="subtitle">Student Digital Locker</p>
+
+        <h2>Welcome Back 👋</h2>
+
+        <input type="email" id="loginEmail"
+               placeholder="Enter your email">
+
+        <input type="password" id="loginPassword"
+               placeholder="Enter password">
+
+        <button onclick="login()" class="primary-btn">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            Login
+        </button>
+
+        <p class="switch">
+            Don't have an account?
+            <span onclick="showSignup()">Create Account</span>
+        </p>
+
+        <p class="demo">
+            Demo: student@example.com / student123
+        </p>
+
+    </div>
+</div>
+
+
+<!-- SIGNUP PAGE -->
+<div id="signupPage" class="auth-page hidden">
+
+    <div class="auth-card">
+
+        <div class="logo">
+            <i class="fa-solid fa-vault"></i>
+            <h1>SmartVault</h1>
+        </div>
+
+        <h2>Create Student Account</h2>
+
+        <input type="text" id="signupName"
+               placeholder="Full Name">
+
+        <input type="email" id="signupEmail"
+               placeholder="Email Address">
+
+        <input type="password" id="signupPassword"
+               placeholder="Create Password">
+
+        <button onclick="signup()" class="primary-btn">
+            Create Account
+        </button>
+
+        <p class="switch">
+            Already have an account?
+            <span onclick="showLogin()">Login</span>
+        </p>
+
+    </div>
+</div>
+
+
+<!-- MAIN APPLICATION -->
+<div id="app" class="hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <i class="fa-solid fa-vault"></i>
+            <span>SmartVault</span>
+        </div>
+
+        <nav>
+
+            <button onclick="showSection('dashboard')">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </button>
+
+            <button onclick="showSection('documents')">
+                <i class="fa-solid fa-folder"></i>
+                My Documents
+            </button>
+
+            <button onclick="showSection('personal')">
+                <i class="fa-solid fa-user"></i>
+                Personal Information
+            </button>
+
+            <button onclick="showSection('shared')">
+                <i class="fa-solid fa-share-nodes"></i>
+                Shared Documents
+            </button>
+
+            <button onclick="showSection('activity')">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Activity
+            </button>
+
+            <button onclick="showSection('settings')">
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </button>
+
+        </nav>
+
+        <button class="logout" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </button>
+
+    </aside>
+
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>Welcome to your secure digital locker</p>
+            </div>
+
+            <div class="profile">
+                <i class="fa-solid fa-circle-user"></i>
+                <span id="studentName">Student</span>
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="section">
+
+            <div class="welcome">
+                <div>
+                    <h1>Good morning, <span id="welcomeName">Student</span> 👋</h1>
+                    <p>All your important documents, safely organized in one place.</p>
+                </div>
+
+                <button onclick="openUpload()" class="primary-btn">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Quick Upload
+                </button>
+            </div>
+
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-file"></i>
+                    <div>
+                        <h3 id="totalDocs">0</h3>
+                        <p>Total Documents</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-star"></i>
+                    <div>
+                        <h3 id="importantDocs">0</h3>
+                        <p>Important Documents</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <h3 id="expiringDocs">0</h3>
+                        <p>Expiring Documents</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div>
+                        <h3>Secure</h3>
+                        <p>Security Status</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h2>Important Documents</h2>
+
+                        <button onclick="showSection('documents')">
+                            View All
+                        </button>
+                    </div>
+
+                    <div id="importantList"></div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h2>Recent Activity</h2>
+                    </div>
+
+                    <div id="recentActivity"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DOCUMENTS -->
+        <section id="documents" class="section hidden">
+
+            <div class="section-actions">
+
+                <input type="text"
+                       id="searchBox"
+                       placeholder="🔍 Search documents..."
+                       oninput="displayDocuments()">
+
+                <button onclick="openUpload()" class="primary-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Upload Document
+                </button>
+
+            </div>
+
+            <div class="categories">
+
+                <button onclick="filterDocuments('All')">All</button>
+                <button onclick="filterDocuments('ID')">ID</button>
+                <button onclick="filterDocuments('Marksheets')">Marksheets</button>
+                <button onclick="filterDocuments('Certificates')">Certificates</button>
+                <button onclick="filterDocuments('Fees')">Fees</button>
+                <button onclick="filterDocuments('Resume')">Resume</button>
+
+            </div>
+
+            <div id="documentsGrid" class="documents-grid"></div>
+
+        </section>
+
+
+        <!-- PERSONAL INFORMATION -->
+        <section id="personal" class="section hidden">
+
+            <div class="panel">
+
+                <h2>Personal Information 🔐</h2>
+
+                <div class="form-grid">
+
+                    <input id="personName"
+                           placeholder="Full Name">
+
+                    <input id="college"
+                           placeholder="College">
+
+                    <input id="course"
+                           placeholder="Course">
+
+                    <input id="rollNumber"
+                           placeholder="Roll Number">
+
+                    <input id="phone"
+                           placeholder="Contact Number">
+
+                    <input id="email"
+                           placeholder="Email">
+
+                </div>
+
+                <button onclick="savePersonalInfo()"
+                        class="primary-btn">
+                    Save Information
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- SHARED DOCUMENTS -->
+        <section id="shared" class="section hidden">
+
+            <div class="panel">
+
+                <h2>Secure Document Sharing 🔗</h2>
+
+                <p>
+                    Generate a temporary sharing code for a document.
+                </p>
+
+                <div id="shareResult" class="share-result">
+                    No active share links.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACTIVITY -->
+        <section id="activity" class="section hidden">
+
+            <div class="panel">
+
+                <h2>Activity History</h2>
+
+                <div id="activityList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+        <section id="settings" class="section hidden">
+
+            <div class="panel">
+
+                <h2>Security & Settings 🛡️</h2>
+
+                <div class="security-item">
+                    <i class="fa-solid fa-lock"></i>
+                    <div>
+                        <h3>Account Protection</h3>
+                        <p>Your account requires authentication.</p>
+                    </div>
+                    <span class="secure">Active</span>
+                </div>
+
+                <div class="security-item">
+                    <i class="fa-solid fa-shield"></i>
+                    <div>
+                        <h3>Privacy</h3>
+                        <p>Your personal information is private.</p>
+                    </div>
+                    <span class="secure">Protected</span>
+                </div>
+
+                <div class="security-item">
+                    <i class="fa-solid fa-link"></i>
+                    <div>
+                        <h3>Temporary Sharing</h3>
+                        <p>Shared documents use temporary access codes.</p>
+                    </div>
+                    <span class="secure">Enabled</span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- UPLOAD MODAL -->
+<div id="uploadModal" class="modal hidden">
+
+    <div class="modal-card">
+
+        <button class="close"
+                onclick="closeUpload()">×</button>
+
+        <h2>Upload Document</h2>
+
+        <label>Document Name</label>
+
+        <input type="text"
+               id="documentName"
+               placeholder="Example: B.Tech 1st Year Marksheet">
+
+        <label>Category</label>
+
+        <select id="documentCategory">
+
+            <option value="ID">ID</option>
+            <option value="Marksheets">Marksheets</option>
+            <option value="Certificates">Certificates</option>
+            <option value="Fees">Fees</option>
+            <option value="Resume">Resume</option>
+            <option value="Other">Other</option>
+
+        </select>
+
+        <label>Select File</label>
+
+        <input type="file" id="documentFile">
+
+        <label class="checkbox">
+            <input type="checkbox" id="importantCheck">
+            Mark as Important
+        </label>
+
+        <button onclick="uploadDocument()"
+                class="primary-btn">
+            Upload Document
+        </button>
+
+    </div>
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
